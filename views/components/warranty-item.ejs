@@ -1,0 +1,61 @@
+<div class="purchase-item">
+	<div class="purchase-item--top">
+		<div class="purchase-item__info">
+			<h5>Đơn hàng:</h5>
+			<p id="purchase-item__id">#DH00<%= order.order_id ?? 'null' %></p>
+		</div>
+		<p class="purchase-item__date">Ngày mua: <span class="js-local-datetime" data-utc="<%= order.order_date %>"><%= formatFunction.toDDMMYYYY(new Date(order.order_date)) ?? '01/01/01' %></span></p>
+		<script>(function(){
+			try{
+				var p = document.currentScript.previousElementSibling;
+				var s = p.querySelector('.js-local-datetime');
+				if(!s) return;
+				var ts = s.getAttribute('data-utc');
+				if(!ts) return;
+
+				// Robust parsing:
+				// - If value is YYYY-MM-DD (MySQL DATE), construct local Date(year, month-1, day)
+				// - If value is DD/MM/YYYY, parse accordingly
+				// - Otherwise, fall back to Date constructor and numeric timestamp
+				var d = null;
+				if (/^\d{4}-\d{2}-\d{2}$/.test(ts)){
+					var parts = ts.split('-');
+					d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+				} else if (/^\d{2}\/\d{2}\/\d{4}$/.test(ts)){
+					var parts = ts.split('/');
+					d = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+				} else {
+					d = new Date(ts);
+					if (isNaN(d)) d = new Date(Number(ts));
+				}
+
+				if (isNaN(d)) return; // don't overwrite if invalid
+
+				// Show local date and time. If the original data had no time, this will show local midnight.
+				s.textContent = d.toLocaleString();
+			}catch(e){}
+		})();</script>
+	</div>
+	<hr />
+	<div class="purchase-item__main">
+		<% order.order_details.forEach(orderDetail => { %>
+		<div class="purchase-item__element">
+			<div class="purchase-item__element--left">
+				<img src="/imgs/product_image/P<%= orderDetail.product_id %>/<%= orderDetail.product_avt_img %>" alt="<%= orderDetail.product_name %>" class="purchase-item__product-img">
+				<div class="purchase-item__product-detail">
+					<h4 id="purchase-item__product-name"><%= orderDetail.product_name ?? 'null' %></h4>
+					<p id="purchase-item__variant">Phân loại hàng: <%= orderDetail.product_variant_name ?? 'null' %></p>
+					<p id="purchase-item__amount">Số lượng: <%= orderDetail.order_detail_quantity ?? 'null' %></p>
+				</div>
+			</div>
+			<%- include('../components/popup-warranty', { order: order, orderDetail: orderDetail }) %>
+		</div>
+		<hr />
+		<% }) %>
+	</div>
+	<div class="purchase-item--bottom">
+		<div class="noti-item__button">
+		</div>
+	</div>
+
+</div>

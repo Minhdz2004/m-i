@@ -1,0 +1,7 @@
+2026-04-09 09:42:57:4257 | ERROR | [LOGIN] User ID: ANONYMOUS | Phone: N/A | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Missing phone number
+2026-04-09 10:03:14:314 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:15:315 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:16:316 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:25:325 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:25:325 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:26:326 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number

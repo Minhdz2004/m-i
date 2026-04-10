@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#2a7ee4">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="IE104.O12_Nhom2">
+    <link rel="shortcut icon" type="image/x-icon" href="/imgs/ico-logo-blue.png">
+    <link rel="stylesheet" href="/styles/admin/pages/cate_view_admin.css">
+    <link rel="stylesheet" href="/styles/admin/pages/product_view_admin.css">
+
+    <title>Mayor Wolf.Admin - Thêm sản phẩm</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <!-- Header -->
+        <%- include('../partials/sidebar_admin') %>
+        <!-- Sidebar -->
+        <%- include('../partials/header_admin', {title: title}) %>
+        <!-- Main -->
+        <main class="main-container">
+            <!-- Page Header -->
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-sm mb-2 mb-sm-0">
+                            <% var pageAction = (typeof product !== 'undefined' && product) ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm' %>
+                            <%- include('../partials/breadcrumb.ejs', breadcrumb = [{text: 'Sản phẩm',link: '/admin/products_admin'}, {text: pageAction, link: '#'}]) %>
+
+                            <div class="page-header__title">
+                                <h1><%= pageAction %></h1>
+                                <button type="submit" class="btn-admin btn-primary" id="saveProductBtn" form="productForm">
+                                    <span class="material-symbols-outlined">
+                                        save
+                                    </span>
+                                    Lưu</button>
+                            </div>
+
+                        </div>
+                        <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                </div>
+                <!-- End Page Header -->
+
+                <div class="row">
+                    <div class="main-form">
+                        <form id="productForm" method="POST" action="/admin/products_admin/add">
+                        <!-- Card -->
+                        <div class="card">
+                            <!-- Header -->
+                            <div class="card-header">
+                                <h4 class="card-header-title">Thông tin sản phẩm</h4>
+                            </div>
+                            <!-- End Header -->
+
+                            <!-- Body -->
+                            <div class="card-body">
+                                <!-- Form -->
+                                <div>
+                                    <label for="productNameLabel" class="form-label">Tên sản phẩm </label>
+                                    <input type="text" class="form-control" name="productName" id="productNameLabel" placeholder="Nhập tên sản phẩm" value="<%= (typeof product !== 'undefined' && product) ? product.product_name : '' %>">
+                                </div>
+                                <!-- Price -->
+                                <div>
+                                    <label for="productPriceLabel" class="form-label">Giá bán</label>
+                                    <input type="number" step="0.01" class="form-control" name="productPrice" id="productPriceLabel" placeholder="Nhập giá sản phẩm" value="<%= (typeof product !== 'undefined' && product) ? product.product_rate : '' %>">
+                                </div>
+                                <!-- End Form -->
+
+                                <!-- Form -->
+                                <div>
+                                    <label for="categoryLabel-ts-control" class="form-label" id="categoryLabel-ts-label">Thuộc loại danh mục</label>
+
+                                    <!-- Select -->
+                                    <div class="tom-select-custom">
+                                        <select name="categoryId" class="js-select form-select tomselected ts-hidden-accessible" autocomplete="off" id="categoryLabel-ts-control">
+                                            <% categories.forEach(function(category) { %>
+                                            <option value="<%= category.category_id %>" <%= (typeof product !== 'undefined' && product && product.category_id == category.category_id) ? 'selected' : '' %>><%= category.category_name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <!-- End Select -->
+                                </div>
+                                <!-- Form -->
+
+                                <label class="form-label">Mô tả sản phẩm </label>
+
+                                <!-- Quill -->
+                                <div class="quill-custom">
+                                    <div class="ql-toolbar ql-snow">
+                                        <button type="button"><span class="material-symbols-rounded"> format_bold </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> format_italic </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> format_underlined </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> format_strikethrough </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> link </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> image </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> format_quote </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> code </span></button>
+                                        <button type="button"><span class="material-symbols-rounded"> format_list_bulleted </span></button>
+                                    </div>
+                                    <textarea name="productDesc" placeholder="Nhập mô tả sản phẩm..."><%= (typeof product !== 'undefined' && product) ? product.product_description : '' %></textarea>
+                                </div>
+                                <!-- End Quill -->
+                            </div>
+                            <!-- Body -->
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div class="card">
+                            <!-- Header -->
+                            <div class="card-header card-header-content-between">
+                                <h4 class="card-header-title">Ảnh</h4>
+                            </div>
+                            <!-- End Header -->
+
+                            <!-- Body -->
+                            <div class="card-body">
+    <% if (typeof product !== 'undefined' && product && product.product_avt_img) { %>
+    <div style="margin-bottom: 20px; text-align: center;">
+        <h5>Hình ảnh hiện tại</h5>
+        <img id="currentProductImage" src="/imgs/product_image/<%= product.product_avt_img %>" alt="<%= product.product_name %>" style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+    </div>
+    <% } %>
+
+    <div id="imagePreviewContainer" style="margin-bottom: 20px; text-align: center; display: none;">
+        <h5>Xem trước hình ảnh mới</h5>
+        <img id="imagePreview" style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+    </div>
+
+    <div id="attachFilesNewProjectLabel" class="js-dropzone dz-dropzone dz-dropzone-card dz-clickable" style="cursor: pointer;">
+        <div class="dz-message">
+            <img class="img-upload" src="/imgs/admin/img-upload.svg" alt="Image Description" data-hs-theme-appearance="default">
+            <h5>Kéo và thả hình ảnh tại đây</h5>
+            <p>hoặc</p>
+            <div class="dz-message-btn">
+                <input type="file" name="image" id="imageUpload" accept="image/*" style="display: none">
+                <label for="imageUpload" class="image-upload-label" style="cursor: pointer;">
+                    <span class="material-symbols-rounded"> upload </span> 
+                    Chọn hình ảnh
+                </label>
+            </div>
+        </div>
+    </div>
+    </div>
+                            <!-- Body -->
+                        </div>
+                        <!-- End Card -->
+                    </div>
+
+                    <div class="main-form">
+                        <!-- Card -->
+                        <div class="card variants">
+                            <!-- Header -->
+                            <div class="card-header">
+                                <h4 class="card-header-title">Biến thể</h4>
+                            </div>
+                            <!-- End Header -->
+
+                            <!-- Body -->
+                            <div class="card-body">
+                                <div class="card-item">
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Tên biến thể">
+                                    </div>
+
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Nhập giá tiền">
+                                    </div>
+                                </div>
+                                <!-- End Col -->
+                            </div>
+                            <!-- End Row -->
+
+                            <!-- Container For Input Field -->
+                            <button class="add-another-btn"> <span class="material-symbols-outlined"> add </span> Thêm biến thể khác </button>
+
+                        </div>
+
+                        <!-- Card -->
+                        <div class="card details">
+                            <!-- Header -->
+                            <div class="card-header">
+                                <h4 class="card-header-title">Chi tiết sản phẩm</h4>
+                            </div>
+                            <!-- End Header -->
+
+                            <!-- Body -->
+                            <div class="card-body">
+                                <div class="card-item">
+                                    <input type="text" class="form-control" placeholder="Tên thông số">
+
+                                    <input type="text" class="form-control" placeholder="Giá trị thông số">
+                                </div>
+                                <!-- End Col -->
+                            </div>
+                            <!-- End Row -->
+
+                            <!-- Container For Input Field -->
+                            <button class="add-another-btn"> <span class="material-symbols-outlined"> add </span> Thêm thông số khác </button>
+                        </div>
+                    </div>
+                    <!-- End Add Another Option Input Field -->
+                </div>
+                <!-- Body -->
+                <!-- End Card -->
+                    </form>
+            </div>
+            <!-- End Col -->
+            </main>
+    </div>
+    <!-- Body -->
+
+    <!-- Scripts -->
+    <script src="/scripts/admin/cate_view_admin.js"></script>
+    <script src="/scripts/admin/index_admin.js"></script>
+
+    <!-- Embed product metadata for client script (avoid EJS inside <script>) -->
+    <div id="product-data" style="display:none" data-product-id="<%= (typeof product !== 'undefined' && product) ? product.product_id : '' %>"></div>
+
+    <script>
+        const productForm = document.getElementById('productForm');
+        const saveProductBtn = document.getElementById('saveProductBtn');
+        const imageUploadInput = document.getElementById('imageUpload');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const dropzone = document.getElementById('attachFilesNewProjectLabel');
+        let selectedImageData = null;
+        let selectedImageName = null;
+
+        // Handle image upload
+        if (imageUploadInput) {
+            imageUploadInput.addEventListener('change', handleImageUpload);
+            
+            // Handle dropzone drag and drop
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#f0f0f0';
+            });
+            
+            dropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '';
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '';
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    imageUploadInput.files = files;
+                    handleImageUpload({ target: { files: files } });
+                }
+            });
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn tệp hình ảnh');
+                return;
+            }
+
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Kích thước hình ảnh không được vượt quá 5MB');
+                return;
+            }
+
+            selectedImageName = file.name;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedImageData = e.target.result;
+                imagePreview.src = selectedImageData;
+                imagePreviewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        if (saveProductBtn && productForm) {
+            saveProductBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Save button clicked');
+                
+                // Collect form data
+                const productName = document.querySelector('[name="productName"]').value.trim();
+                const productPrice = document.querySelector('[name="productPrice"]').value.trim();
+                const productDesc = document.querySelector('[name="productDesc"]').value;
+                const categoryId = document.querySelector('[name="categoryId"]').value;
+                // read product id from hidden data element to avoid EJS in script
+                const productDataEl = document.getElementById('product-data');
+                const editProductId = productDataEl && productDataEl.dataset && productDataEl.dataset.productId ? Number(productDataEl.dataset.productId) : null;
+                
+                console.log('Product data:', {productName, productPrice, categoryId, selectedImageData: !!selectedImageData});
+
+                // Validation
+                if (!productName) {
+                    alert('❌ Tên sản phẩm không được để trống');
+                    document.querySelector('[name="productName"]').focus();
+                    return;
+                }
+
+                if (!productPrice || isNaN(productPrice)) {
+                    alert('❌ Giá sản phẩm không hợp lệ');
+                    document.querySelector('[name="productPrice"]').focus();
+                    return;
+                }
+
+                if (!categoryId) {
+                    alert('❌ Vui lòng chọn danh mục');
+                    return;
+                }
+
+                const data = {
+                    productName: productName,
+                    productPrice: productPrice,
+                    productDesc: productDesc,
+                    categoryId: categoryId
+                };
+
+                // Add image data if a new image was selected
+                if (selectedImageData) {
+                    data.imageData = selectedImageData;
+                    data.imageName = selectedImageName;
+                }
+
+                const url = editProductId ? `/admin/products_admin/edit/${editProductId}` : '/admin/products_admin/add';
+
+                console.log('Sending data to:', url);
+
+                saveProductBtn.disabled = true;
+                saveProductBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_bottom</span> Đang lưu...';
+
+                fetch(url, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    console.log('Response:', response);
+                    if (!response.ok) {
+                        throw new Error('HTTP error, status = ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('Result:', result);
+                    if (result.success) {
+                        alert('✅ ' + result.message);
+                        window.location.href = result.redirect;
+                    } else {
+                        alert('❌ Lỗi: ' + result.message);
+                        saveProductBtn.disabled = false;
+                        saveProductBtn.innerHTML = '<span class="material-symbols-outlined">save</span> Lưu';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Có lỗi xảy ra: ' + error.message);
+                    saveProductBtn.disabled = false;
+                    saveProductBtn.innerHTML = '<span class="material-symbols-outlined">save</span> Lưu';
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
+

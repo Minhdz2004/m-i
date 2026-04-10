@@ -1,0 +1,46 @@
+const express = require('express')
+const router = express.Router();
+
+// import controller
+const authAdminController = require('../controllers/admin/authAdminController.js')
+const dashboardAdminController = require('../controllers/admin/dashboardAdminController.js')
+const cateAdminController = require('../controllers/admin/cateAdminController.js')
+
+// import middleware
+const adminMiddleware = require('../middleware/adminMiddleware.js')
+
+// admin auth
+router.get('/login', adminMiddleware.checkAuth, authAdminController.getLogin)
+router.post('/login', adminMiddleware.checkAuth, authAdminController.postLogin)
+router.get('/logout', adminMiddleware.checkUnAuth, authAdminController.getLogout)
+
+// admin dashboard
+router.get('/dashboard', adminMiddleware.isLoggedIn, dashboardAdminController.getDashboard)
+router.get('/dashboard/getChart', adminMiddleware.isLoggedIn, dashboardAdminController.getChart)
+router.get('/', adminMiddleware.isLoggedIn, dashboardAdminController.getDashboard)
+
+// admin cate management
+router.get('/categories_admin/add', adminMiddleware.isLoggedIn, cateAdminController.addCategories)
+router.post('/categories_admin/add', adminMiddleware.isLoggedIn, cateAdminController.postAddCategories)
+router.get('/categories_admin', adminMiddleware.isLoggedIn, cateAdminController.getCategories)
+
+// admin product management
+router.get('/products_admin/add', adminMiddleware.isLoggedIn, cateAdminController.addProducts)
+router.post('/products_admin/add', adminMiddleware.isLoggedIn, cateAdminController.postAddProducts)
+router.get('/products_admin', adminMiddleware.isLoggedIn, cateAdminController.getProducts)
+router.get('/products_admin/edit/:id', adminMiddleware.isLoggedIn, cateAdminController.editProducts)
+router.post('/products_admin/edit/:id', adminMiddleware.isLoggedIn, cateAdminController.postEditProducts)
+router.post('/products_admin/delete/:id', adminMiddleware.isLoggedIn, cateAdminController.deleteProduct)
+router.post('/products_admin/hide/:id', adminMiddleware.isLoggedIn, cateAdminController.hideProduct)
+
+// admin orders & customers (placeholders)
+router.get('/orders_admin', adminMiddleware.isLoggedIn, dashboardAdminController.getOrders)
+router.get('/customers_admin', adminMiddleware.isLoggedIn, dashboardAdminController.getCustomers)
+
+// admin category management
+router.get('/categories_admin/edit/:id', adminMiddleware.isLoggedIn, cateAdminController.editCategories)
+router.post('/categories_admin/edit/:id', adminMiddleware.isLoggedIn, cateAdminController.postEditCategories)
+router.post('/categories_admin/delete/:id', adminMiddleware.isLoggedIn, cateAdminController.deleteCategory)
+router.post('/categories_admin/hide/:id', adminMiddleware.isLoggedIn, cateAdminController.hideCategory)
+
+module.exports = router

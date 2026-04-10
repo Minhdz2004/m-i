@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/admin/pages/dashboard_admin.css">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="grid-container">
+        <%- include('../partials/sidebar_admin') %>
+        <%- include('../partials/header_admin', {title: title}) %>
+        <main class="main-container">
+            <div class="content container-fluid">
+                <h2><%= title %></h2>
+                <p>Trang quản lý đơn hàng đang được phát triển. Hiển thị danh sách đơn hàng và hành động sẽ xuất hiện ở đây.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

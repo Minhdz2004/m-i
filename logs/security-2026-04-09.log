@@ -1,0 +1,15 @@
+2026-04-09 09:39:24:3924 | INFO | [LOGIN] User ID: 1 | Phone: 0987654321 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: Login successful
+2026-04-09 09:39:47:3947 | INFO | [LOGOUT] User ID: ANONYMOUS | Phone: N/A | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User logged out
+2026-04-09 09:42:57:4257 | INFO | [REGISTER] User ID: ANONYMOUS | Phone: 0927786485 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User registered successfully
+2026-04-09 09:42:57:4257 | ERROR | [LOGIN] User ID: ANONYMOUS | Phone: N/A | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Missing phone number
+2026-04-09 10:03:12:312 | INFO | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User registered successfully
+2026-04-09 10:03:14:314 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:15:315 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:16:316 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825673 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:22:322 | INFO | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User registered successfully
+2026-04-09 10:03:25:325 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:25:325 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:03:26:326 | ERROR | [REGISTER] User ID: ANONYMOUS | Phone: 0369825677 | IP: ::ffff:127.0.0.1 | Status: FAILED | Message: Duplicate phone number
+2026-04-09 10:31:21:3121 | INFO | [LOGIN] User ID: 35 | Phone: 0369539815 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: Login successful
+2026-04-09 10:43:34:4334 | INFO | [LOGOUT] User ID: ANONYMOUS | Phone: N/A | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User logged out
+2026-04-09 10:44:16:4416 | INFO | [REGISTER] User ID: ANONYMOUS | Phone: 0976763464 | IP: ::ffff:127.0.0.1 | Status: SUCCESS | Message: User registered successfully
